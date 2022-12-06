@@ -1,5 +1,8 @@
+from scipy.optimize import newton
+import numpy as np
+
 class root_finder():
-    'Implement Newton Method'
+    'Implement Secant Method'
     pass
 
 
@@ -28,7 +31,7 @@ class ODE_methods:
 
     def Trapezoidal_Euler_Method(self):
         guess  = self.Forward_Euler_Method()
-        g = lambda z,j: z - self._F_array[j] - (self._step/2)*( self._F(self._grid[j], self._F_array[j]) + \                                               self._F(self._grid[j+1],z) ) # z -> S_{t+1}; Equation to solve: z = sj + h*F(t_{j+1},z)
+        g = lambda z,j: z - self._F_array[j] - (self._step/2)*( self._F(self._grid[j], self._F_array[j]) + self._F(self._grid[j+1],z) )                                              
         for k in range(len(self._grid)-1):
             self._F_array[k+1] = newton(g,guess[k+1], args= [k])
         return self._F_array
